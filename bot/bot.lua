@@ -4,7 +4,7 @@
   json = (loadfile "./bot/JSON.lua")()
 
   VERSION = 'v0.7.4'
-  
+
   -- taken from http://stackoverflow.com/a/11130774/3163199
   function scandir(directory)
     local i, t, popen = 0, {}, io.popen
@@ -14,11 +14,12 @@
     end
     return t
   end
-  
+
   function on_msg_receive (msg)
     vardump(msg)
 
     if msg_valid(msg) == false then
+      print("Invalid")
       return
     end
 
@@ -38,21 +39,22 @@
 
   function msg_valid(msg)
     if msg.text == nil then
+      print("Empty text")
       return false
     end
     --if msg.from.id == our_id then
     --  return false
     --end
-    if msg.out then
-      return false
-    end
+    -- if msg.out then
+    --   print("Msg.out")
+    --   return false
+    -- end
     if msg.date < now then
-      return false
-    end
-    if msg.text == nil then
+      print("Msg.date < now")
       return false
     end
     if msg.unread == 0 then
+      print("unread")
       return false
     end
   end
@@ -81,10 +83,10 @@
   end
 
   function load_config()
-     local f = assert(io.open('./bot/config.json', "r"))
+     local f = assert(io.open('./bot/config.prod.json', "r"))
      local c = f:read "*a"
      local config = json:decode(c)
-     if config.sh_enabled then 
+     if config.sh_enabled then
         print ("!sh command is enabled")
         for v,user in pairs(config.sudo_users) do
            print("Allowed user: " .. user)
@@ -97,10 +99,10 @@
 
   function is_sudo(msg)
      local var = false
-     -- Check users id in config 
-     for v,user in pairs(config.sudo_users) do 
-        if user == msg.from.id then 
-           var = true 
+     -- Check users id in config
+     for v,user in pairs(config.sudo_users) do
+        if user == msg.from.id then
+           var = true
         end
      end
      return var
@@ -117,7 +119,7 @@
   function run_sh(msg)
      name = get_name(msg)
      text = ''
-     if config.sh_enabled == false then 
+     if config.sh_enabled == false then
         text = '!sh command is disabled'
      else
         if is_sudo(msg) then
@@ -191,18 +193,18 @@
   function vardump(value, depth, key)
     local linePrefix = ""
     local spaces = ""
-    
+
     if key ~= nil then
       linePrefix = "["..key.."] = "
     end
-    
+
     if depth == nil then
       depth = 0
     else
       depth = depth + 1
       for i=1, depth do spaces = spaces .. "  " end
     end
-    
+
     if type(value) == 'table' then
       mTable = getmetatable(value)
       if mTable == nil then
@@ -210,12 +212,12 @@
       else
         print(spaces .."(metatable) ")
           value = mTable
-      end		
+      end
       for tableKey, tableValue in pairs(value) do
         vardump(tableValue, depth, tableKey)
       end
-    elseif type(value)	== 'function' or 
-        type(value)	== 'thread' or 
+    elseif type(value)	== 'function' or
+        type(value)	== 'thread' or
         type(value)	== 'userdata' or
         value		== nil
     then
@@ -305,11 +307,11 @@
   plugins = {}
 
   -- load all plugins in the plugins/ directory
-  for k, v in pairs(scandir("plugins")) do 
+  for k, v in pairs(scandir("plugins")) do
     if not (v:sub(0, 1) == ".") then
         print("Loading plugin", v)
         t = loadfile("plugins/" .. v)()
         table.insert(plugins, t)
-    end 
+    end
   end
 
