@@ -11,9 +11,7 @@ else
 end
 
 function get_quote()
-  print(_quotes[1])
   quote = _quotes[math.random(1,#_quotes)]
-  print(quote)
   return quote
 end
 
@@ -24,7 +22,6 @@ end
 return {
     description = "retrieves random quotes",
     usage = "!quote",
-    patterns = {
-      "^!quote$"},
+    patterns = {"^!quote$"},
     run = run
 }
