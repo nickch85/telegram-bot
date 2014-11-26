@@ -110,7 +110,7 @@
 
   function get_name(msg)
      local name = msg.from.first_name
-     if name == nil then
+     if (name == nil) then
         name = msg.from.id
      end
      return name
@@ -233,11 +233,13 @@
     local from_id = tostring(msg.from.id)
     local user_name = get_name(msg)
     -- If last name is nil dont save last_name.
+    local user_first_name = msg.from.first_name
     local user_last_name = msg.from.last_name
     local user_print_name = msg.from.print_name
     if _users[from_id] == nil then
       _users[from_id] = {
         name = user_name,
+        first_name = user_first_name,
         last_name = user_last_name,
         print_name = user_print_name,
         msg_num = 1
@@ -246,7 +248,9 @@
       local actual_num = _users[from_id].msg_num
       _users[from_id].msg_num = actual_num + 1
       -- And update last_name
+      _users[from_id].first_name = user_first_name
       _users[from_id].last_name = user_last_name
+      _users[from_id].print_name = user_print_name
     end
     f = io.open('res/users.json', "w+")
     f:write(json:encode_pretty(_users))

@@ -10,17 +10,17 @@ function run(msg, matches)
 	local text = ""
 	for id, user in pairs(_users) do
 		if user.last_name == nil then
-			text = text..user.name..": "..user.msg_num.."\n"
+			text = text..user.first_name..": "..user.msg_num.."\n"
 		else
-			text = text..user.name.." "..user.last_name..": "..user.msg_num.."\n"
+			text = text..user.first_name.." "..user.last_name..": "..user.msg_num.."\n"
 		end
 	end
 	return text
 end
 
 return {
-    description = "Numer of messages by user", 
+    description = "Numer of messages by user",
     usage = "!stats",
-    patterns = {"^!stats"}, 
-    run = run 
+    patterns = {"^!stats"},
+    run = run
 }
