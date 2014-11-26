@@ -3,13 +3,15 @@ function getDDG(text)
   topic = url_encode(topic)
   b = http.request("http://api.duckduckgo.com/?format=json&q=" .. topic)
   res = json:decode(b)
-  local definition = nil
-  if res.AbstractText ~= nil then
-    definition = res.Heading..": "..res.AbstractText.."\n".. res.AbstractURL
+  local result = nil
+  if res.Definition ~= "" then
+    result = res.Heading..": "..res.Definition.."\n".. res.DefinitionURL
+  elseif res.AbstractText ~= "" then
+    result = res.Heading..": "..res.AbstractText.."\n".. res.AbstractURL
   else
-    definition = nil
+    result = nil
   end
-  return definition
+  return result
 end
 
 function url_encode(str)
