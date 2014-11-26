@@ -17,10 +17,14 @@ function run(msg, matches)
   local receiver = get_receiver(msg)
   local text = msg.text:sub(6,-1)
   local url = getGiphyGif(text)
-  local file_path = download_to_file(url)
-  print(file_path)
-  send_document(receiver, file_path, ok_cb, false)
-  return nil
+  if (url == nil) then
+    return "Zzzz..."
+  else
+    local file_path = download_to_file(url)
+    print(file_path)
+    send_document(receiver, file_path, ok_cb, false)
+    return nil
+  end
 end
 
 return {
