@@ -1,11 +1,11 @@
-function getUrbanDictionary(text)
+function getDDG(text)
   topic = string.match(text, "!ud (.+)")
   topic = url_encode(topic)
-  b = http.request("http://api.urbandictionary.com/v0/define?term=" .. topic)
+  b = http.request("http://api.duckduckgo.com/?format=json&q=" .. topic)
   res = json:decode(b)
   local definition = nil
   if #res.list > 0 then
-    definition = res.list[1].word..": "..res.list[1].definition.."\n".. res.list[1].permalink
+    definition = res.Heading..": "..res.RelatedTopics[1].Text.."\n".. res.RelatedTopics[1].FirstURL
   else
     definition = nil
   end
@@ -23,7 +23,7 @@ function url_encode(str)
 end
 
 function run(msg, matches)
-  local text = getUrbanDictionary(msg.text)
+  local text = getDDG(msg.text)
   if (text == nil) then
     return "Zzzzz..."
   else
@@ -32,9 +32,9 @@ function run(msg, matches)
 end
 
 return {
-    description = "get urban dictionary definition",
-    usage = "!ud [topic]",
-    patterns = {"^!ud (.*)$"},
+    description = "get duck duck go instant result",
+    usage = "!ddg [topic]",
+    patterns = {"^!ddg (.*)$"},
     run = run
 }
 
