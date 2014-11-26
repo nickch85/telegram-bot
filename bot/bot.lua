@@ -248,6 +248,9 @@
       -- And update last_name
       _users[from_id].last_name = user_last_name
     end
+    f = io.open('res/users.json', "w+")
+    f:write(json:encode_pretty(_users))
+    f:close()
   end
 
   function load_user_stats()
