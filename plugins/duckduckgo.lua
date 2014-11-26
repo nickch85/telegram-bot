@@ -4,8 +4,8 @@ function getDDG(text)
   b = http.request("http://api.duckduckgo.com/?format=json&q=" .. topic)
   res = json:decode(b)
   local definition = nil
-  if #res.RelatedTopics > 0 then
-    definition = res.Heading..": "..res.RelatedTopics[1].Text.."\n".. res.RelatedTopics[1].FirstURL
+  if res.AbstractText ~= nil then
+    definition = res.Heading..": "..res.AbstractText.."\n".. res.AbstractURL
   else
     definition = nil
   end
