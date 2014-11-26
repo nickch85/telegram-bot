@@ -1,5 +1,5 @@
 function getUrbanDictionary(text)
-  topic = string.match(text, "!ud (.+)")
+  local topic = string.match(text, "!ud (.+)")
   topic = url_encode(topic)
   b = http.request("http://api.urbandictionary.com/v0/define?term=" .. topic)
   res = json:decode(b)
