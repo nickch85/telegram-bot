@@ -1,5 +1,5 @@
 function getDDG(text)
-  local topic = string.match(text, "!ud (.+)")
+  local topic = string.match(text, "!ddg (.+)")
   topic = url_encode(topic)
   b = http.request("http://api.duckduckgo.com/?format=json&q=" .. topic)
   res = json:decode(b)
