@@ -6,12 +6,15 @@ function run(msg, matches)
 end
 
 return {
-    description = "When user sends image URL (ends with png, jpg, jpeg) download and send it to origin.", 
+    description = "When user sends image URL (ends with png, jpg, jpeg) download and send it to origin.",
     usage = "",
     patterns = {
     	"(https?://[%w-_%.%?%.:/%+=&]+.png)$",
     	"(https?://[%w-_%.%?%.:/%+=&]+.jpg)$",
     	"(https?://[%w-_%.%?%.:/%+=&]+.jpeg)$",
-    }, 
-    run = run 
+        "(http?://[%w-_%.%?%.:/%+=&]+.png)$",
+        "(http?://[%w-_%.%?%.:/%+=&]+.jpg)$",
+        "(http?://[%w-_%.%?%.:/%+=&]+.jpeg)$",
+    },
+    run = run
 }
