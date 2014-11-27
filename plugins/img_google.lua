@@ -5,7 +5,6 @@ function getGoogleImage(text)
     local api = "https://ajax.googleapis.com/ajax/services/search/images?v=1.0&rsz=8&q="
     b = http.request(api..text)
     local google = json:decode(b)
-
     if (google.responseStatus == 200) then -- OK
       math.randomseed(os.time())
       if #google.responseData.results > 0 then
